@@ -1,0 +1,1208 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Senno - Roblox Script</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background:
+        radial-gradient(circle at top left, #172554, transparent 40%),
+        radial-gradient(circle at bottom right, #0f172a, transparent 40%),
+        linear-gradient(135deg, #020617, #0b1120, #111827);
+    color: white;
+    overflow-x: hidden;
+}
+
+/* STARS */
+#stars {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 0;
+}
+
+.star {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background: white;
+    border-radius: 50%;
+    opacity: 0;
+    animation: shooting 4s linear infinite;
+}
+
+@keyframes shooting {
+    0% {
+        opacity: 0;
+        transform: translate(0, 0) scale(1);
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate(-500px, 500px) scale(0.2);
+    }
+}
+
+/* LOGIN */
+#loginPage {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+    padding: 20px;
+}
+
+.login-box {
+    width: 100%;
+    max-width: 400px;
+    padding: 35px;
+    background: rgba(15, 23, 42, 0.88);
+    border: 1px solid rgba(96, 165, 250, 0.3);
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    backdrop-filter: blur(12px);
+}
+
+.login-box h1 {
+    margin: 0 0 8px;
+    font-size: 38px;
+}
+
+.login-box p {
+    margin: 0 0 25px;
+    color: #94a3b8;
+}
+
+.login-box input {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    outline: none;
+    border-radius: 10px;
+    background: #1e293b;
+    color: white;
+    margin-bottom: 12px;
+    font-size: 15px;
+}
+
+.login-box button {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 10px;
+    background: #2563eb;
+    color: white;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.login-box button:hover {
+    background: #1d4ed8;
+    transform: translateY(-1px);
+}
+
+.error {
+    color: #f87171;
+    margin-top: 12px;
+    font-size: 14px;
+}
+
+/* MAIN */
+#mainPage {
+    display: none;
+    position: relative;
+    z-index: 2;
+    max-width: 1000px;
+    margin: auto;
+    padding: 30px 20px 50px;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 35px;
+}
+
+.header p {
+    color: #94a3b8;
+    margin: 8px 0;
+}
+
+/* BADGE */
+.badge {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+.owner-badge {
+    background: #7c3aed;
+    color: white;
+}
+
+.member-badge {
+    background: #334155;
+    color: #cbd5e1;
+}
+
+/* PANEL */
+.panel,
+.saran-panel {
+    background: rgba(15, 23, 42, 0.88);
+    border: 1px solid rgba(96, 165, 250, 0.2);
+    border-radius: 18px;
+    padding: 22px;
+    margin-bottom: 20px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(10px);
+}
+
+.panel h2,
+.saran-panel h2 {
+    margin-top: 0;
+}
+
+.saran-panel p {
+    color: #94a3b8;
+}
+
+.saran-panel textarea {
+    width: 100%;
+    min-height: 110px;
+    resize: vertical;
+    padding: 14px;
+    border: 1px solid #334155;
+    border-radius: 12px;
+    outline: none;
+    background: #0f172a;
+    color: white;
+    font-size: 14px;
+    margin-bottom: 12px;
+}
+
+.saran-panel textarea:focus {
+    border-color: #3b82f6;
+}
+
+.saran-panel button {
+    padding: 12px 18px;
+    border: none;
+    border-radius: 10px;
+    background: #2563eb;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.saran-panel button:hover {
+    background: #1d4ed8;
+}
+
+/* SCRIPT CARD */
+.script-card {
+    background: rgba(30, 41, 59, 0.8);
+    border: 1px solid #334155;
+    border-radius: 14px;
+    padding: 18px;
+    margin-bottom: 15px;
+    overflow: hidden;
+}
+
+.script-card:last-child {
+    margin-bottom: 0;
+}
+
+/* FOTO SCRIPT */
+.script-image {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    display: block;
+    border-radius: 12px;
+    margin-bottom: 15px;
+    background: #020617;
+    border: 1px solid #334155;
+}
+
+.script-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.script-title {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.script-owner {
+    font-size: 11px;
+    color: #94a3b8;
+    margin-top: 4px;
+}
+
+.script-code {
+    width: 100%;
+    min-height: 130px;
+    resize: vertical;
+    background: #020617;
+    color: #cbd5e1;
+    border: 1px solid #334155;
+    border-radius: 10px;
+    padding: 12px;
+    font-family: Consolas, monospace;
+    font-size: 13px;
+    outline: none;
+}
+
+.script-buttons {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+}
+
+.script-buttons button {
+    border: none;
+    border-radius: 8px;
+    padding: 9px 13px;
+    cursor: pointer;
+    color: white;
+    font-weight: bold;
+}
+
+.copy-btn {
+    background: #2563eb;
+}
+
+.delete-btn {
+    background: #dc2626;
+}
+
+.copy-btn:hover {
+    background: #1d4ed8;
+}
+
+.delete-btn:hover {
+    background: #b91c1c;
+}
+
+/* ADD SCRIPT */
+#addScriptBox {
+    display: none;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #334155;
+}
+
+#addScriptBox input,
+#addScriptBox textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 10px;
+    border-radius: 9px;
+    border: 1px solid #334155;
+    background: #0f172a;
+    color: white;
+    outline: none;
+}
+
+#addScriptBox input:focus,
+#addScriptBox textarea:focus {
+    border-color: #3b82f6;
+}
+
+#addScriptBox textarea {
+    min-height: 130px;
+    resize: vertical;
+    font-family: Consolas, monospace;
+}
+
+/* IMAGE URL */
+#scriptImageUrl {
+    font-family: Arial, sans-serif;
+}
+
+.add-btn {
+    padding: 11px 16px;
+    border: none;
+    border-radius: 9px;
+    background: #16a34a;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.add-btn:hover {
+    background: #15803d;
+}
+
+/* LOGOUT */
+.logout {
+    display: block;
+    margin: 20px auto 0;
+    padding: 11px 20px;
+    border: none;
+    border-radius: 10px;
+    background: #334155;
+    color: white;
+    cursor: pointer;
+}
+
+.logout:hover {
+    background: #475569;
+}
+
+/* TOAST */
+#toast {
+    position: fixed;
+    left: 50%;
+    bottom: 25px;
+    transform: translateX(-50%) translateY(100px);
+    background: #1e293b;
+    color: white;
+    padding: 12px 18px;
+    border-radius: 10px;
+    border: 1px solid #475569;
+    opacity: 0;
+    transition: 0.3s;
+    z-index: 100;
+}
+
+#toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* MOBILE */
+@media (max-width: 600px) {
+
+    #mainPage {
+        padding: 20px 12px 40px;
+    }
+
+    .login-box {
+        padding: 25px 20px;
+    }
+
+    .header h1 {
+        font-size: 28px;
+    }
+
+    .panel,
+    .saran-panel {
+        padding: 17px;
+    }
+
+    .script-top {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .script-image {
+        height: 180px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div id="stars"></div>
+
+<!-- LOGIN -->
+<div id="loginPage">
+
+    <div class="login-box">
+
+        <h1>Senno</h1>
+
+        <p>Roblox Script Management</p>
+
+        <input
+            type="text"
+            id="usernameInput"
+            placeholder="Masukkan username"
+            autocomplete="off"
+        >
+
+        <button onclick="login()">
+            Masuk
+        </button>
+
+        <div
+            class="error"
+            id="loginError"
+        ></div>
+
+    </div>
+
+</div>
+
+
+<!-- MAIN -->
+<div id="mainPage">
+
+    <!-- SARAN GAME -->
+    <div class="saran-panel">
+
+        <h2>🎮 Saran game apa?</h2>
+
+        <p>
+            Tulis game yang ingin kamu sarankan.
+            Setelah menekan tombol, aplikasi email akan terbuka
+            dengan isi pesan yang sudah otomatis dibuat.
+        </p>
+
+        <textarea
+            id="saranGame"
+            placeholder="Tulis saran game kamu..."
+        ></textarea>
+
+        <button onclick="kirimSaran()">
+            📩 Kirim Saran
+        </button>
+
+    </div>
+
+
+    <!-- HEADER -->
+    <div class="header">
+
+        <h1>
+            Senno - Roblox Script
+        </h1>
+
+        <p id="welcomeText"></p>
+
+        <span
+            id="roleBadge"
+            class="badge"
+        ></span>
+
+    </div>
+
+
+    <!-- SCRIPT -->
+    <div class="panel">
+
+        <h2>
+            Roblox Script
+        </h2>
+
+        <div id="scriptList"></div>
+
+
+        <!-- OWNER ADD SCRIPT -->
+        <div id="addScriptBox">
+
+            <input
+                type="text"
+                id="scriptName"
+                placeholder="Nama script"
+            >
+
+            <input
+                type="url"
+                id="scriptImageUrl"
+                placeholder="URL foto script (https://...)"
+            >
+
+            <textarea
+                id="scriptCode"
+                placeholder="Masukkan script Roblox..."
+            ></textarea>
+
+            <button
+                class="add-btn"
+                onclick="tambahScript()"
+            >
+                + Tambah Script
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <button
+        class="logout"
+        onclick="logout()"
+    >
+        Keluar
+    </button>
+
+</div>
+
+
+<div id="toast"></div>
+
+
+<script>
+
+/* =========================
+   DATA
+========================= */
+
+let scripts =
+    JSON.parse(
+        localStorage.getItem("sennoScripts")
+    ) || [];
+
+let currentUser = null;
+
+
+/* =========================
+   STARS
+========================= */
+
+const stars =
+    document.getElementById("stars");
+
+for(let i = 0; i < 20; i++){
+
+    const star =
+        document.createElement("div");
+
+    star.className = "star";
+
+    star.style.top =
+        Math.random() * 85 + "%";
+
+    star.style.left =
+        50 + Math.random() * 60 + "%";
+
+    star.style.animationDelay =
+        Math.random() * 10 + "s";
+
+    star.style.animationDuration =
+        2 + Math.random() * 4 + "s";
+
+    stars.appendChild(star);
+}
+
+
+/* =========================
+   LOGIN
+========================= */
+
+function login(){
+
+    const username =
+        document
+        .getElementById("usernameInput")
+        .value
+        .trim();
+
+    if(!username){
+
+        showError(
+            "Username wajib diisi."
+        );
+
+        return;
+    }
+
+
+    if(
+        username.toLowerCase()
+        === "senno"
+    ){
+
+        currentUser = {
+            nama: "Senno",
+            role: "Owner"
+        };
+
+    }else{
+
+        currentUser = {
+            nama: username,
+            role: "Member"
+        };
+
+    }
+
+
+    masuk();
+}
+
+
+function masuk(){
+
+    document
+        .getElementById("loginPage")
+        .style.display = "none";
+
+    document
+        .getElementById("mainPage")
+        .style.display = "block";
+
+
+    document
+        .getElementById("welcomeText")
+        .textContent =
+        "Selamat datang, " +
+        currentUser.nama;
+
+
+    const badge =
+        document.getElementById("roleBadge");
+
+
+    if(
+        currentUser.role
+        === "Owner"
+    ){
+
+        badge.className =
+            "badge owner-badge";
+
+        badge.textContent =
+            "OWNER";
+
+        document
+            .getElementById("addScriptBox")
+            .style.display =
+            "block";
+
+    }else{
+
+        badge.className =
+            "badge member-badge";
+
+        badge.textContent =
+            "MEMBER";
+
+        document
+            .getElementById("addScriptBox")
+            .style.display =
+            "none";
+    }
+
+
+    tampilkanScript();
+}
+
+
+/* =========================
+   KIRIM SARAN
+   TANPA EMAILJS
+========================= */
+
+function kirimSaran(){
+
+    const input =
+        document.getElementById(
+            "saranGame"
+        );
+
+    const saran =
+        input.value.trim();
+
+
+    if(!saran){
+
+        alert(
+            "Tulis saran game terlebih dahulu."
+        );
+
+        return;
+    }
+
+
+    const nama =
+        currentUser
+        ? currentUser.nama
+        : "Pengunjung";
+
+
+    const subject =
+        "Saran game - Senno";
+
+
+    const body =
+        "Halo Senno,\n\n" +
+        "Saya ingin memberikan saran game.\n\n" +
+        "Nama: " +
+        nama +
+        "\n" +
+        "Saran game: " +
+        saran +
+        "\n\n" +
+        "Terima kasih.";
+
+
+    window.location.href =
+        "mailto:msennop@gmail.com" +
+        "?subject=" +
+        encodeURIComponent(subject) +
+        "&body=" +
+        encodeURIComponent(body);
+}
+
+
+/* =========================
+   TAMPILKAN SCRIPT
+========================= */
+
+function tampilkanScript(){
+
+    const list =
+        document.getElementById(
+            "scriptList"
+        );
+
+
+    if(scripts.length === 0){
+
+        list.innerHTML = `
+            <p style="
+                color:#94a3b8;
+                text-align:center;
+                padding:20px;
+            ">
+                Belum ada script.
+            </p>
+        `;
+
+        return;
+    }
+
+
+    list.innerHTML =
+        scripts.map(
+            (script, index) => {
+
+                const deleteButton =
+                    currentUser &&
+                    currentUser.role
+                    === "Owner"
+
+                    ? `
+                        <button
+                            class="delete-btn"
+                            onclick="hapusScript(${index})"
+                        >
+                            🗑 Hapus
+                        </button>
+                    `
+                    : "";
+
+
+                const image =
+                    script.foto
+                    ? `
+                        <img
+                            class="script-image"
+                            src="${escapeAttribute(script.foto)}"
+                            alt="${escapeAttribute(script.nama)}"
+                            onerror="this.style.display='none'"
+                        >
+                    `
+                    : "";
+
+
+                return `
+
+                    <div class="script-card">
+
+                        ${image}
+
+                        <div class="script-top">
+
+                            <div>
+
+                                <div class="script-title">
+                                    ${escapeHTML(script.nama)}
+                                </div>
+
+                                <div class="script-owner">
+                                    Ditambahkan oleh:
+                                    ${escapeHTML(script.pembuat || "Senno")}
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <textarea
+                            class="script-code"
+                            readonly
+                            id="script-${index}"
+                        >${escapeHTML(script.code)}</textarea>
+
+
+                        <div class="script-buttons">
+
+                            <button
+                                class="copy-btn"
+                                onclick="salinScript(${index})"
+                            >
+                                📋 Copy
+                            </button>
+
+                            ${deleteButton}
+
+                        </div>
+
+                    </div>
+
+                `;
+
+            }
+        ).join("");
+}
+
+
+/* =========================
+   TAMBAH SCRIPT
+========================= */
+
+function tambahScript(){
+
+    if(
+        !currentUser ||
+        currentUser.role !== "Owner"
+    ){
+
+        showToast(
+            "Hanya Owner yang dapat menambah script."
+        );
+
+        return;
+    }
+
+
+    const nama =
+        document
+        .getElementById("scriptName")
+        .value
+        .trim();
+
+
+    const foto =
+        document
+        .getElementById("scriptImageUrl")
+        .value
+        .trim();
+
+
+    const code =
+        document
+        .getElementById("scriptCode")
+        .value
+        .trim();
+
+
+    if(!nama){
+
+        showToast(
+            "Nama script wajib diisi."
+        );
+
+        return;
+    }
+
+
+    if(!foto){
+
+        showToast(
+            "URL foto wajib diisi."
+        );
+
+        return;
+    }
+
+
+    if(!code){
+
+        showToast(
+            "Kode script wajib diisi."
+        );
+
+        return;
+    }
+
+
+    scripts.push({
+
+        nama: nama,
+
+        foto: foto,
+
+        code: code,
+
+        pembuat:
+            currentUser.nama
+
+    });
+
+
+    simpanData();
+
+
+    document
+        .getElementById("scriptName")
+        .value = "";
+
+
+    document
+        .getElementById("scriptImageUrl")
+        .value = "";
+
+
+    document
+        .getElementById("scriptCode")
+        .value = "";
+
+
+    tampilkanScript();
+
+
+    showToast(
+        "✅ Script berhasil ditambahkan."
+    );
+}
+
+
+/* =========================
+   COPY SCRIPT
+========================= */
+
+function salinScript(index){
+
+    const code =
+        scripts[index].code;
+
+
+    navigator.clipboard
+        .writeText(code)
+        .then(function(){
+
+            showToast(
+                "✅ Script berhasil disalin."
+            );
+
+        })
+        .catch(function(){
+
+            const textarea =
+                document
+                .getElementById(
+                    "script-" + index
+                );
+
+            textarea.select();
+
+            document.execCommand(
+                "copy"
+            );
+
+            showToast(
+                "✅ Script berhasil disalin."
+            );
+
+        });
+}
+
+
+/* =========================
+   HAPUS SCRIPT
+========================= */
+
+function hapusScript(index){
+
+    if(
+        !currentUser ||
+        currentUser.role !== "Owner"
+    ){
+
+        showToast(
+            "Hanya Owner yang dapat menghapus script."
+        );
+
+        return;
+    }
+
+
+    const yakin =
+        confirm(
+            "Yakin ingin menghapus script ini?"
+        );
+
+
+    if(!yakin){
+
+        return;
+    }
+
+
+    scripts.splice(
+        index,
+        1
+    );
+
+
+    simpanData();
+
+    tampilkanScript();
+
+
+    showToast(
+        "🗑 Script berhasil dihapus."
+    );
+}
+
+
+/* =========================
+   LOCAL STORAGE
+========================= */
+
+function simpanData(){
+
+    localStorage.setItem(
+        "sennoScripts",
+        JSON.stringify(scripts)
+    );
+}
+
+
+/* =========================
+   LOGOUT
+========================= */
+
+function logout(){
+
+    currentUser = null;
+
+
+    document
+        .getElementById("mainPage")
+        .style.display = "none";
+
+
+    document
+        .getElementById("loginPage")
+        .style.display = "flex";
+
+
+    document
+        .getElementById("usernameInput")
+        .value = "";
+
+
+    document
+        .getElementById("loginError")
+        .textContent = "";
+
+
+    document
+        .getElementById("saranGame")
+        .value = "";
+}
+
+
+/* =========================
+   ERROR
+========================= */
+
+function showError(message){
+
+    document
+        .getElementById("loginError")
+        .textContent =
+        message;
+}
+
+
+/* =========================
+   TOAST
+========================= */
+
+function showToast(message){
+
+    const toast =
+        document.getElementById("toast");
+
+
+    toast.textContent =
+        message;
+
+
+    toast.classList.add("show");
+
+
+    setTimeout(function(){
+
+        toast.classList.remove("show");
+
+    }, 2500);
+}
+
+
+/* =========================
+   HTML ESCAPE
+========================= */
+
+function escapeHTML(value){
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+
+/* =========================
+   ATTRIBUTE ESCAPE
+========================= */
+
+function escapeAttribute(value){
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/"/g, "&quot;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
+}
+
+
+/* =========================
+   ENTER LOGIN
+========================= */
+
+document
+    .getElementByI
